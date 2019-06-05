@@ -1,0 +1,86 @@
+/* 第一部分 */
+.banner {
+    width: 80%;
+    margin: 0 auto;
+    padding: 35px 0px 35px 0px;
+    border-bottom: solid;
+    border-bottom-width: 3px;
+    border-color: black;
+    text-align: center;
+}
+
+.banner-text {
+    padding: 0px 50px 0px 50px;
+    color: gray;
+    text-decoration: none;
+}
+.banner-text:hover {
+    color: lightgray;
+}
+/* 第二部分 */
+.page-title {
+    width: 80%;
+    margin: 0 auto;
+    padding: 35px 0px 35px 0px;
+    text-align: center;
+    /* border: solid; */
+    border-color: red;
+}
+.font_7 {
+    font: normal normal normal 17px/1.4em 'palatino linotype',serif ;
+    color:#000000;
+}
+.page-title-text {
+    padding: 0px 50px 0px 50px;
+    text-decoration: none;
+    letter-spacing: 0.25em;
+}
+/* 第三部分 */
+.content {
+    width: 80%;
+    padding: 0px;
+    margin: 0 auto;
+    /* border: solid; */
+    border-color: green;
+}
+.content-row {
+    width: 100%;
+    /* margin: 0 auto; */
+    text-align: center;
+
+    /* border: solid; */
+    border-color: blue;
+}
+/* 负责把父元素撑起来 */
+.content-row::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+.content-col {
+    display:inline-block;
+    /* border: solid; */
+    border-color: yellow;
+    height: 200px;
+    width: 31%;
+    position: relative;
+}
+.content-col-1 {
+    float: left;
+}
+.content-col-2 {
+}
+.content-col-3 {
+    float: right;
+}
+.content-col-text {
+    position: absolute;
+    top: 50%;
+    left: 50;
+    transform: translateY(-50%) translateX(-50%);
+    font-style: normal;
+    color: white;
+    font-size: x-large;
+    letter-spacing: 0.2em;
+    text-decoration: none;
+}

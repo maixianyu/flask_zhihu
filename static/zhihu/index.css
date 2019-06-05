@@ -1,0 +1,44 @@
+body {
+    background-color: #d0c9c936;
+}
+a {
+    text-decoration: none !important;
+}
+.band {
+    background-color: white;
+    padding: 10px 0px 10px 0px;
+    margin-top: 0px !important;
+    /* text-align: right; */
+}
+.current-user-info {
+    text-align: right;
+    /* border: solid; */
+    /* border-color: red; */
+}
+.common-user-info {
+    text-align: left;
+}
+.common-user-info-text {
+    margin-right: 20px;
+}
+/* 问题列表布局 */
+.question-list, .col-2 {
+    background-color: white;
+}
+.question-item {
+    padding: 10px 0px 10px 20px;
+    border: solid;
+    border-color: #d0c9c936;
+    border-width: 1px;
+}
+.question-title {
+    font-size: x-large;
+    color: black;
+}
+.question-content {
+    font-size: medium;
+    color: gray;
+}
+.row {
+    margin-top: 10px;
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>假知乎的主页</title>
+        <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename='zhihu/index.css') }}" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="band row justify-content-center">
+                <div class="col-6 common-user-info">
+                    <a class="common-user-info-text" href={{ url_for("zhihu.question_submit_view") }}>发布话题</a>
+                    <a class="common-user-info-text" href={{ url_for("root.index") }}>首页</a>
+                </div>
+                <div class="col-2 current-user-info">
+                    {% if user is not none %}
+                        你好，<a href={{ url_for("user.index") }}>{{ user.username }}</a>
+                    {% else %}
+                        <a href={{ url_for("user.login_view") }}>登录</a>
+                        <a href={{ url_for("user.register_view") }}>注册</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+              <div class="col-6">
+                  <div class="question-list">
+                    <!-- 这部分是回答列表展示，由 JS 来渲染 -->
+                    <!-- 这部分是话题列表 -->
+                    {% for q in questions %}
+                        <div class="question-item">
+                        <a href={{ url_for('zhihu.question_detail', id=q._id) }}
+                            class="question-title">
+                            {{ q.title }}
+                        </a>
+                        <br>
+                        <span class="question-content">{{ q.content }}</span>
+                        <br><br>
+                        </div>
+                    {% endfor %}
+
+                  </div>
+
+              </div>
+              <div class="col-2">
+                回答的侧栏
+              </div>
+            </div>
+        </div>
+
+    </body>
+</html>

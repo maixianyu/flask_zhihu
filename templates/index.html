@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>BJudeLab</title>
+        <link href="{{ url_for('static', filename='index.css') }}" rel="stylesheet">
+    </head>
+    <body>
+        <!-- <a href= {{ url_for("zhihu.index") }} >知乎乎</a> -->
+        <div class="banner">
+                <a class="banner-text" href=''>Home</a>
+                <a class="banner-text" href=''>About</a>
+                <a class="banner-text" href=''>Search</a>
+                <a class="banner-text" href=''>Contact</a>
+        </div>
+        <div class="page-title">
+            <h1 class="page-title-text font_7">A Lab</h1>
+        </div>
+        <div class="content">
+            <div class="content-row">
+                <div class="content-col content-col-1" style="background-color: #68c6f1;">
+                    <a class="content-col-text" href="{{ url_for('zhihu.index') }}">知乎乎</a>
+                </div>
+                <div class="content-col content-col-2" style="background-color: #62d7dbc2;">
+                </div>
+                <div class="content-col content-col-3" style="background-color: #e5ada2;">
+                </div>
+            </div>
+        </div>
+
+
+    </body>
+</html>

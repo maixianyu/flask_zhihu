@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>提交问题</title>
+    </head>
+    <body>
+        <div class="">
+            <form class="" action={{ url_for("zhihu.question_submit") }} method="post">
+                标题：<input type="text" name="title" value="" placeholder="标题">
+                内容：<input type="text" name="content" value="" placeholder="内容">
+                <button type="submit">提交</button>
+            </form>
+            {{ message }}
+        </div>
+    </body>
+</html>

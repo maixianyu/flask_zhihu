@@ -1,0 +1,92 @@
+body {
+    background-color: #d0c9c936
+}
+.band {
+    background-color: white
+}
+.question {
+    background-color: white
+}
+
+/* 回答布局 */
+.answer-submit, .answer-item {
+    background-color: white;
+}
+.answer-item {
+    border-width: 10px 0 10px 0 !important;
+}
+.answer-item-row {
+    height: auto;
+    margin: 10px 0 10px 10px;
+}
+
+/* 字体大小 */
+.person-intro, .answer-time, .agree-intro {
+    font-size: small;
+}
+.question-title {
+    font-size: x-large;
+}
+.col-2 {
+    background-color: white
+}
+
+/* 评论区的布局 */
+.div-answer-comment {
+    margin: 10px 5px 10px 5px;
+    padding: 10px 0px 10px 0px;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: lightgrey;
+    border-width: 2px;
+
+}
+
+.div-answer-comment-submit {
+    margin: inherit;
+}
+/* 每条评论 */
+.answer-comment-item {
+    padding: 10px 10px 10px 10px;
+    /* border-top: 2px solid lightgrey; */
+    /* border-right: 2px solid lightgrey; */
+    border-bottom: 1px solid lightgrey;
+    /* border-left: : 2px solid lightgrey; */
+}
+.answer-comment-time {
+    float: right;
+    color: gray;
+    font-size: small;
+}
+
+
+/* 评论的显示按钮 */
+.link-answer-comment {
+    color: gray;
+    font-size: small;
+    margin-left: 30px;
+    border: none;
+    background-color: Transparent;
+}
+.link-answer-comment:hover {
+    color: darkgray;
+}
+.link-answer-comment:focus {
+    outline:0;
+}
+
+/* 评论的输入 */
+#answer-comment-content {
+    width: 90%;
+    border-radius: 2px;
+    padding: 2px 2px 2px 5px;
+}
+#button-submit-answer-comment {
+    float: right;
+}
+
+/* 图片大小 */
+.user-image {
+    width: 40px;
+    height: 40px;
+}
