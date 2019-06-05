@@ -1,30 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title>用户主页</title>
-    </head>
-    <body>
-        {% if user is not none %}
+<html lang='en'>
+<head>
+    <!--required meta tags-->
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='user/index.css') }}">
+</head>
+<body>
 
-            头像：<img class="fit-picture"
-                        src="{{ url_for('root.uploads', filename=user.user_image) }}"
-                        alt="Grapefruit slice atop a pile of other slices" />
-            <p>{{ user.user_image }}</p>
-            <p>上传头像</p>
-            <form method=post action={{ url_for(".add_img") }} enctype=multipart/form-data>
-                <p><input type=file name=file>
-                <input type=submit value=Upload>
-            </form>
-            <br>用户id: {{ user._id }}
-            <br>用户名：{{ user.username }}
-            <br>
+    <!-- user profile image -->
+    <img class="card-img-top"
+        src="{{ url_for('root.uploads', filename=user.user_image) }}">
+    <p>上传头像</p>
+    <form method=post action={{ url_for(".add_img") }} enctype=multipart/form-data>
+        <p><input type=file name=file>
+        <input type=submit value=Upload>
+    </form>
+    <!-- user name -->
+    <div class="card-title">id: {{ user._id }}</div>
+    <div class="card-title">{{ user.username }}</div>
+    <a href= {{ url_for('zhihu.index') }}>知乎乎</a>
+    <br>
+    <a href= {{ url_for('.logout') }}>退出登录</a>
 
-            <a href= {{ url_for('zhihu.index') }}>知乎乎</a>
-            <br>
-            <a href= {{ url_for('.logout') }}>退出登录</a>
-        {% else %}
-            请登录
-        {% endif %}
-    </body>
+</body>
 </html>

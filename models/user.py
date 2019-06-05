@@ -78,7 +78,7 @@ class User(MongoModel):
             form['password'] = cls.salted_password(form['password'])
             # 存入数据库
             u = cls.new(form)
-            result = ''
+            result = '注册成功，请登录'
         else:
             u = None()
             result = '用户名或密码长度需要大于2'

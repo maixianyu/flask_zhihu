@@ -3,15 +3,20 @@
     <head>
         <meta charset="utf-8">
         <title>登录</title>
+        <link href="{{ url_for('static', filename='user/login.css') }}" rel="stylesheet">
     </head>
     <body>
-        <div class="">
-            <form class="" action={{ url_for("user.login") }} method="post">
-                用户：<input type="text" name="username" value="" placeholder="username">
-                密码：<input type="text" name="password" value="" placeholder="password">
-                <button type="submit">登录</button>
+        <div class="login-page">
+          <div class="form">
+            <form class="login-form" action={{ url_for("user.login") }} method="post">
+              <input type="text" name="username" placeholder="username"/>
+              <input type="password" name="password" placeholder="password"/>
+              <button type="submit">login</button>
+              <p class="message">Not registered? <a href={{ url_for("user.register_view") }}>Create an account</a></p>
             </form>
+            <br>
             {{ message }}
+          </div>
         </div>
     </body>
 </html>

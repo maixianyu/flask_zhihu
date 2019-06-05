@@ -87,9 +87,9 @@ def register():
     form = request.form
     u, msg = User.register(form.to_dict())
     if u is None:
-        return redirect(url_for('.register_view', msg=msg))
+        return redirect(url_for('.register_view', message=msg))
     else:
-        return redirect(url_for('.login_view'))
+        return redirect(url_for('.login_view', message=msg))
 
 
 def allow_file(filename):
