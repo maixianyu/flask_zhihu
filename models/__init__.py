@@ -5,6 +5,8 @@ from utils import log
 from models.user_role import userrole_codec
 from bson import ObjectId
 import json
+import config
+import urllib
 
 
 class MongoModel(object):
@@ -17,8 +19,11 @@ class MongoModel(object):
 
     @classmethod
     def init_db(cls):
-        cls.client = MongoClient()
-        cls.db = cls.client['BJudeLab']
+        username = urllib.parse.quote_plus(config.mongo_user)
+        password = urllib.parse.quote_plus(config.mongo_passwd)
+        cls.client = MongoClient('mongodb://%s:%s@127.0.0.1' %
+                                 (username, password))
+        cls.db = cls.client[config.mongo_db]
 
     def __init__(self, form):
         self._id = str(form.get('_id', ''))

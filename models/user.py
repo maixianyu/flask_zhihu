@@ -3,7 +3,8 @@ import time
 from pymongo import ASCENDING
 from models.user_role import UserRole
 import hashlib
-from config import user_salt
+import config
+import urllib
 
 
 class User(MongoModel):
@@ -46,6 +47,9 @@ class User(MongoModel):
 
     @classmethod
     def init_db(cls):
+        username = urllib.parse.quote_plus(config.mongo_user)
+        password = urllib.parse.quote_plus(config.mongo_passwd)
+        cls.db.authenticate(username, password)
         cls.db[cls.collection_name()].create_index([
             ('username', ASCENDING),
         ],
@@ -57,7 +61,7 @@ class User(MongoModel):
         return len(form['username']) > 2 and len(form['password']) > 2
 
     @staticmethod
-    def salted_password(password, salt=user_salt):
+    def salted_password(password, salt=config.user_salt):
         # 加盐
         salted = password + salt
         # hash 后以 16 进制保存
