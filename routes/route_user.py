@@ -42,14 +42,15 @@ def index():
             return render_template("user/index.html", user=u)
         else:
             # 用户不存在
-            return render_template("user/index.html")
+            return redirect(url_for('.login_view'))
     else:
-        return render_template("user/index.html")
+        return redirect(url_for('.login_view'))
 
 
 @main.route("/login_view")
 def login_view():
-    return render_template("user/login.html", message='')
+    message = request.args.get('message', '')
+    return render_template("user/login.html", message=message)
 
 
 @main.route("/login", methods=["POST"])
@@ -77,7 +78,7 @@ def logout():
 
 @main.route("/register_view")
 def register_view():
-    msg = request.args.get('msg', '')
+    msg = request.args.get('message', '')
     return render_template("user/register.html", message=msg)
 
 
