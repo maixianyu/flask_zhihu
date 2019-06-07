@@ -6,8 +6,8 @@ from flask import (
     request,
     session,
     escape,
-
 )
+from functools import wraps
 from models.user import User
 from utils import log
 from werkzeug.utils import secure_filename
@@ -82,7 +82,36 @@ def register_view():
     return render_template("user/register.html", message=msg)
 
 
+# 检查表单是否合法的装饰器
+def form_validate(fun_next):
+    @wraps(fun_next)
+    def f():
+        form = request.form
+        if len(form['username']) > 2 and len(form['password']) > 2:
+            return fun_next()
+        else:
+            message = '用户名和密码长度需要大于2'
+            return redirect(url_for('.register_view', message=message))
+    return f
+
+
+# 检查是否具有同用户名的装饰器
+def same_username_validate(fun_next):
+    @wraps(fun_next)
+    def f():
+        form = request.form
+        u = User.find_one(username=form['username'])
+        if u is not None:
+            message = '存在同名用户'
+            return redirect(url_for('.register_view', message=message))
+        else:
+            return fun_next()
+    return f
+
+
 @main.route("/register", methods=["POST"])
+@form_validate
+@same_username_validate
 def register():
     form = request.form
     u, msg = User.register(form.to_dict())

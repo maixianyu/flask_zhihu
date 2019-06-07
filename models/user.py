@@ -55,11 +55,6 @@ class User(MongoModel):
         ],
             unique=True)
 
-    # 检查表单是否合法
-    @staticmethod
-    def validate(form):
-        return len(form['username']) > 2 and len(form['password']) > 2
-
     @staticmethod
     def salted_password(password, salt=config.user_salt):
         # 加盐
@@ -70,18 +65,9 @@ class User(MongoModel):
 
     @classmethod
     def register(cls, form):
-        # 检查表单是否合法
-        valid = cls.validate(form)
-        # 如果用户名和密码合法
-        if valid is True:
-            # 给密码加盐hash
-            form['password'] = cls.salted_password(form['password'])
-            # 存入数据库
-            u = cls.new(form)
-            result = '注册成功，请登录'
-        else:
-            u = None()
-            result = '用户名或密码长度需要大于2'
+        form['password'] = cls.salted_password(form['password'])
+        u = cls.new(form)
+        result = '注册成功，请登录'
         return u, result
 
     @classmethod
