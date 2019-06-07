@@ -5,6 +5,7 @@ from models.user_role import UserRole
 import hashlib
 import config
 import urllib
+from utils import log
 
 
 class User(MongoModel):
@@ -75,7 +76,8 @@ class User(MongoModel):
         # 给密码加密
         form['password'] = cls.salted_password(form['password'])
         # 验证用户名与密码是否存在
-        u = User.find_one(**form)
+        u = User.find_one(username=form['username'],
+                          password=form['password'])
         if u is None:
             result = '登录失败'
         else:

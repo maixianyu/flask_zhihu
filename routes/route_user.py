@@ -21,6 +21,7 @@ def login_required(func):
     '''
     权限检查的装饰器，要求必须用户已登录
     '''
+    @wraps(func)
     def f(*args, **kwargs):
         u = current_user()
         if u.is_guest():
@@ -49,20 +50,26 @@ def index():
 
 @main.route("/login_view")
 def login_view():
-    message = request.args.get('message', '')
-    return render_template("user/login.html", message=message)
+    u = current_user()
+    if u.is_guest():
+        message = request.args.get('message', '')
+        return render_template("user/login.html", message=message)
+    else:
+        return redirect(url_for('.index'))
 
 
 @main.route("/login", methods=["POST"])
 def login():
     # request.form 不是 dict，所以需要转换一下
     form = request.form.to_dict()
+    log('login form', form)
     u, result = User.login(form)
     if u is not None:
         # 设置客户端session
         session['username'] = request.form['username']
-        # 跳转到用户主页
-        return redirect(url_for('.index'))
+        # 跳转至登录前的页面
+        ref = form['referrer']
+        return redirect(ref)
     else:
         return redirect(url_for('.login_view', message=result))
 
