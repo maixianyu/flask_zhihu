@@ -21,3 +21,6 @@ var ajax = function(method, path, data, responseCallback) {
     log('ajax send', data)
     r.send(data)
 }
+
+// 调试打印
+var log = console.log
