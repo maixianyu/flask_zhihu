@@ -5,6 +5,12 @@ var clear_board = function()
     chat_area.value = ''
 }
 
+var append_text = function(t) {
+    var chat_area = document.querySelector('#id-chat-area')
+    var append_text = t + '\n'
+    chat_area.value += append_text
+}
+
 var socket;
 
 // 初始化 websocket 的连接
@@ -14,7 +20,8 @@ var socket_startup = function() {
     window.socket.on('connect', function() {
         console.log('connect', url);
         // log('compare socket', socket.id, window.socket.id)
-        clear_board();
+        // clear_board();
+        append_text('欢迎进入聊天室！')
     });
 }
 
@@ -30,17 +37,15 @@ var bindKeySubmit = function() {
             s = window.socket.emit('event_text', data)
             log('data sent:', data)
             text.value = ''
-
         }
     });
 }
 
+
 var socket_recv_message = function() {
     window.socket.on('event_text', function(data) {
         log('response of socket', data)
-        var chat_area = document.querySelector('#id-chat-area')
-        var append_text = data.text + '\n'
-        chat_area.value += append_text
+        append_text(data.text)
     });
 }
 
