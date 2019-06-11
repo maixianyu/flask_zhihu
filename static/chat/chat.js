@@ -34,8 +34,8 @@ var bindKeySubmit = function() {
         if (key == 'Enter') {
             // log('text', text.value)
             var data = {text: text.value}
-            s = window.socket.emit('event_text', data)
-            log('data sent:', data)
+            var s = window.socket.emit('event_text', data)
+            // log('data sent:', data)
             text.value = ''
         }
     });
@@ -44,8 +44,13 @@ var bindKeySubmit = function() {
 
 var socket_recv_message = function() {
     window.socket.on('event_text', function(data) {
-        log('response of socket', data)
+        // log('response of socket', data)
         append_text(data.text)
+    });
+    window.socket.on('event_online_count', function(data) {
+        // log('event_online_count', data)
+        count = document.querySelector('#online_count')
+        count.innerText = data.online_count
     });
 }
 
