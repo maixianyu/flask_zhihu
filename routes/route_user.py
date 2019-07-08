@@ -36,7 +36,8 @@ def login_required(func):
 def index():
     # 查看session是否存在
     if 'username' in session:
-        username = escape(session['username'])
+        # username = escape(session['username'])
+        username = session['username']
         u = User.one(username=username)
         if u is not None:
             # 用户存在

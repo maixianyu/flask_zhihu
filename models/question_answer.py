@@ -20,6 +20,14 @@ class Question(SQLMixin, db.Model):
     content = Column(UnicodeText, nullable=False)
     count_answer = Column(Integer, nullable=False, default=0)
 
+    @classmethod
+    def new(cls, form):
+        # form['content'] = json.dumps(form['content'])
+        form['author'] = current_user().username
+
+        a = super().new(form)
+        return a
+
     def all_answer(self):
         all = Answer.all(question_id=self.id)
         return all

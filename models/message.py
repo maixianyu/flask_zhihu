@@ -1,4 +1,4 @@
-from time import sleep
+# from time import sleep
 
 from marrow.mailer import Mailer
 from sqlalchemy import Column, Unicode, UnicodeText, Integer
@@ -8,6 +8,7 @@ import secret
 from models.base_model import SQLMixin, db
 from models.user import User
 # from tasks import send_async, mailer
+
 
 def configured_mailer():
     config = {
@@ -64,7 +65,7 @@ class Messages(SQLMixin, db.Model):
             to=receiver.email,
             content='站内信通知：\n {}'.format(content),
         )
-        import threading
+        # import threading
         # form = dict(
         #     subject=form['title'],
         #     author=admin_mail,

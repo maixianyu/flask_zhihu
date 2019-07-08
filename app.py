@@ -42,12 +42,19 @@ def db_init(app):
     db.init_app(app)
 
 
+def register_jinja_func(app):
+    from jinja_func import count, format_time
+    app.template_filter()(count)
+    app.template_filter()(format_time)
+
+
 def configured_app():
     app = Flask(__name__)
 
     register_routes(app)
     db_init(app)
     socketio.init_app(app)
+    register_jinja_func(app)
 
     app.secret_key = secret.secret_key
 

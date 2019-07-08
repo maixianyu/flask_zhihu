@@ -33,17 +33,17 @@ def generate_fake_date(app):
         password='123',
         email=config.test_mail,
     )
-    u = User.register(form)
+    u_1 = User.register(form)
 
     form = dict(
         username='maixy',
         password='123',
         email=config.test_mail,
     )
-    u = User.register(form)
+    u_2 = User.register(form)
 
     question_form = dict(
-        author=u.username,
+        author=u_1.username,
         title='如何看待x事件？',
         content='3天前发生了这件事，你怎么看？',
         count_answer=1,
@@ -52,7 +52,7 @@ def generate_fake_date(app):
     with open('answer_demo.md', encoding='utf8') as f:
         content = f.read()
         answer_form = dict(
-            author=u.username,
+            author=u_1.username,
             question_id=1,
             content=content,
             agree=1,
@@ -60,7 +60,7 @@ def generate_fake_date(app):
         )
 
     comment_form = dict(
-        author=u.username,
+        author=u_1.username,
         content=content,
         answer_id=0,
     )
@@ -77,6 +77,12 @@ def generate_fake_date(app):
             print('begin AnswerComment <{}>'.format(i))
             comment_form['answer_id'] = i+1
             t = AnswerComment.new(comment_form)
+
+    title = '一个请教'
+    content = '我的看法是xx。'
+    sender_id = u_1.id
+    receiver_id = u_2.id
+    Messages.send(title, content, sender_id, receiver_id)
 
 
 if __name__ == '__main__':

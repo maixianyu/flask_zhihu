@@ -75,14 +75,17 @@ def answer_submit():
 
 # 被点赞
 @main.route("/api/click_agree", endpoint='click_agree', methods=['POST'])
-@login_required
 def click_agree():
+    u = current_user()
+    if u.is_guest():
+        return ''
+
     # json
     data = json.loads(request.json)
     # 找到对应的 answer
-    log('click_agree data', data)
+    # log('click_agree data', data)
     ans = Answer.one(id=data['id'])
-    log('ans', ans)
+    # log('ans', ans)
 
     resp = ''
     # 如果 answer 存在

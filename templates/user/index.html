@@ -1,26 +1,24 @@
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <!--required meta tags-->
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename='user/index.css') }}">
-</head>
-<body>
+{% extends "zhihu/base.html" %}
+{% block title %}知乎主页{% endblock %}
+{% block main %}
 
-    <!-- user profile image -->
-    <img class="card-img-top"
-        src="{{ url_for('root.uploads', filename=user.image) }}">
-    <p>上传头像</p>
-    <form method=post action={{ url_for(".add_img") }} enctype=multipart/form-data>
-        <p><input type=file name=file>
-        <input type=submit value=Upload>
-    </form>
-    <!-- user name -->
-    <div class="card-title">id: {{ user.id }}</div>
-    <div class="card-title">{{ user.username }}</div>
-    <a href= {{ url_for('zhihu.index') }}>知乎乎</a>
-    <br>
-    <a href= {{ url_for('.logout') }}>退出登录</a>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-6">
+          <!-- user profile image -->
+          <img src="{{ url_for('root.uploads', filename=user.image) }}"
+              width="200" height="200">
+          <p>上传头像</p>
+          <form method=post action={{ url_for(".add_img") }} enctype=multipart/form-data>
+              <p><input type=file name=file>
+              <input type=submit value=Upload>
+          </form>
+          <!-- user name -->
+          <div class="card-title">id: {{ user.id }}</div>
+          <div class="card-title">{{ user.username }}</div>
+          <br>
+      </div>
+    </div>
+</div>
 
-</body>
-</html>
+{% endblock %}

@@ -30,6 +30,10 @@ var bindClickAgree = function () {
             apiClickAgree(data, function(resp){
                 // 回调函数，更新点赞数值的显示
                 log('resp', resp)
+                if (resp == '') {
+                    return
+                }
+                
                 resp = JSON.parse(resp)
                 if (('id' in resp) && ('agree' in resp)) {
                     id = resp.id
