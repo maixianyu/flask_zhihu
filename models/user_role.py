@@ -3,7 +3,6 @@ from enum import (
     auto,
 )
 
-from bson.codec_options import TypeCodec
 # from utils import log
 
 
@@ -26,31 +25,3 @@ class UserRole(Enum):
     def decoder(cls, value):
         """from String to UserRole"""
         return cls[value]
-
-
-class UserRoleCodec(TypeCodec):
-    # the Python type acted upon by this type codec
-    python_type = type(UserRole.guest)
-    # the BSON type acted upon by this type codec
-    bson_type = str
-
-    def transform_python(self, value):
-        """Function that transforms a custom type value into a type
-        that BSON can encode."""
-        return UserRole.encoder(value)
-
-    def transform_bson(self, value):
-        """Function that transforms a vanilla BSON type value into our
-        custom type."""
-        return UserRole.decoder(value)
-
-
-userrole_codec = UserRoleCodec()
-
-
-if __name__ == '__main__':
-    g = UserRole.guest
-    print('UserRole type', type(UserRole))
-    print('UserRole.guest type', type(g))
-    print('g.name', g.name)
-    print('decoder', UserRole.decoder('guest'))

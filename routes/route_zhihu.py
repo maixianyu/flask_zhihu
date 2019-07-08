@@ -8,7 +8,6 @@ from flask import (
 
 import json
 from utils import log
-from bson.objectid import ObjectId
 from routes.route_user import (
     login_required,
     current_user,
