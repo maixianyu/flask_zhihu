@@ -1,6 +1,10 @@
 server {
     listen 80;
 
+    location /uploads {
+        alias /var/www/flask_zhihu/user_image;
+    }
+
     location /images {
         alias /var/www/flask_zhihu/images;
     }
