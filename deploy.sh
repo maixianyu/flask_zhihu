@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 1. 拉代码到 /var/www/flask_bbs
+# 1. 拉代码到 /var/www/flask_zhihu
 # 2. 执行 bash deploy.sh
 
 set -ex
@@ -35,14 +35,14 @@ mysql -u root -p$mysql_pw -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysq
 rm -f /etc/nginx/sites-enabled/default
 rm -f /etc/nginx/sites-available/default
 # 不要再 sites-available 里面放任何东西
-cp /var/www/flask_bbs/flask_bbs.nginx /etc/nginx/sites-enabled/flask_bbs
-chmod -R o+rwx /var/www/flask_bbs
+cp /var/www/flask_zhihu/flask_zhihu.nginx /etc/nginx/sites-enabled/flask_zhihu
+chmod -R o+rwx /var/www/flask_zhihu
 
-cp /var/www/flask_bbs/flask_bbs.conf /etc/supervisor/conf.d/flask_bbs.conf
+cp /var/www/flask_zhihu/flask_zhihu.conf /etc/supervisor/conf.d/flask_zhihu.conf
 
 
 # 初始化
-cd /var/www/flask_bbs
+cd /var/www/flask_zhihu
 python3 reset.py
 
 # 重启服务器
