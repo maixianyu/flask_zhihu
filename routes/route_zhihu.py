@@ -49,20 +49,16 @@ def question_submit():
 # 问题的详情页
 @main.route("/question_detail/<string:id>",
             endpoint='question_detail', methods=['GET'])
-@login_required
 def question_detail(id):
     u = current_user()
     # 找到对应的问题
-    q = Question.find_one(_id=ObjectId(id))
+    q = Question.one(id=id)
     if q is None:
         return redirect(url_for('.index'))
     else:
-        # 找到问题对应的所有回答
-        all_answer = Answer.all(question_id=q._id)
         return render_template('zhihu/question_detail.html',
                                user=u,
                                question=q,
-                               answers=all_answer,
                                )
 
 
@@ -71,10 +67,11 @@ def question_detail(id):
 @login_required
 def answer_submit():
     form = request.json
-    log('answer dict', form)
-    ans = Answer.new(form)
+    # log('answer dict', form)
+    ans = Answer.api_new(form)
     # 返回 json 格式的 answer
-    return ans.json()
+    log('return ans', ans)
+    return json.dumps(ans)
 
 # 被点赞
 @main.route("/api/click_agree", endpoint='click_agree', methods=['POST'])
@@ -83,7 +80,8 @@ def click_agree():
     # json
     data = json.loads(request.json)
     # 找到对应的 answer
-    ans = Answer.find_one(_id=ObjectId(data['_id']))
+    log('click_agree data', data)
+    ans = Answer.one(id=data['id'])
     log('ans', ans)
 
     resp = ''
@@ -94,7 +92,7 @@ def click_agree():
         # 返回 json 对象
         resp = dict(
             agree=ans.agree,
-            id=ans._id,
+            id=ans.id,
         )
         resp = json.dumps(resp)
 
@@ -104,11 +102,11 @@ def click_agree():
 # 加载所有的回答
 @main.route("/api/all_answer/<string:question_id>",
             endpoint='all_answer', methods=['GET'])
-@login_required
 def all_answer(question_id):
-    all = Answer.all(question_id=question_id)
+    all = Answer.api_all(question_id=question_id)
     # 格式化为 json 返回
-    res = json.dumps([ans.json() for ans in all])
+    log('all_answer', question_id, all)
+    res = json.dumps(all)
     return res
 
 

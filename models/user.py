@@ -1,43 +1,33 @@
-from models import MongoModel
-import time
-from pymongo import ASCENDING
+from sqlalchemy import Column, String, Enum
+from models.base_model import SQLMixin, db
+
 from models.user_role import UserRole
 import hashlib
 import config
-import urllib
+import secret
 from utils import log
 
 
-class User(MongoModel):
-    def __init__(self, form):
-        super().__init__(form)
-        self._id = form.get('_id', None)
-        self.username = form.get('username')
-        self.password = form.get('password')
-        # 用户角色
-        self.role = form.get('role', UserRole.normal)
-        # 注册时间
-        self.time = int(time.time())
-        # 用户的头像图片
-        # 注意，一定要用 form.get，而不能直接赋值，否则从数据库转成model时
-        # 会有数据没有办法导出来
-        self.user_image = form.get('user_image', self.default_img())
+class User(SQLMixin, db.Model):
+    __tablename__ = 'User'
+    default_img = 'default.png'
+
+    username = Column(String(20), nullable=False)
+    password = Column(String(100), nullable=False)
+    image = Column(String(100), nullable=False,
+                   default=default_img)
+    email = Column(String(50), nullable=False)
+    role = Column(Enum(UserRole), nullable=False)
 
     @staticmethod
-    def default_img():
-        return 'default.png'
-
-    @classmethod
-    def guest(cls):
-        '''
-        生成一个游客对象，给未登录状态的访客使用
-        '''
-        form = dict(
-            username='游客',
-            password='',
-            role=UserRole.guest,
-        )
-        u = cls(form)
+    def guest():
+        form = dict()
+        form['username'] = '游客'
+        form['role'] = UserRole.guest
+        form['image'] = __class__.default_img
+        u = __class__()
+        for k, v in form.items():
+            setattr(u, k, v)
         return u
 
     def is_guest(self):
@@ -46,18 +36,8 @@ class User(MongoModel):
         """
         return self.role == UserRole.guest
 
-    @classmethod
-    def init_db(cls):
-        username = urllib.parse.quote_plus(config.mongo_user)
-        password = urllib.parse.quote_plus(config.mongo_passwd)
-        cls.db.authenticate(username, password)
-        cls.db[cls.collection_name()].create_index([
-            ('username', ASCENDING),
-        ],
-            unique=True)
-
     @staticmethod
-    def salted_password(password, salt=config.user_salt):
+    def salted_password(password, salt=secret.user_salt):
         # 加盐
         salted = password + salt
         # hash 后以 16 进制保存
@@ -66,20 +46,20 @@ class User(MongoModel):
 
     @classmethod
     def register(cls, form):
-        form['password'] = cls.salted_password(form['password'])
-        u = cls.new(form)
-        result = '注册成功，请登录'
-        return u, result
+        name = form.get('username', '')
+        if len(name) > 2 and User.one(username=name) is None:
+            form['password'] = User.salted_password(form['password'])
+            form['role'] = UserRole.normal
+            u = User.new(form)
+            return u
+        else:
+            return None
 
     @classmethod
-    def login(cls, form):
-        # 给密码加密
-        form['password'] = cls.salted_password(form['password'])
-        # 验证用户名与密码是否存在
-        u = User.find_one(username=form['username'],
-                          password=form['password'])
-        if u is None:
-            result = '登录失败'
-        else:
-            result = ''
-        return u, result
+    def validate_login(cls, form):
+        query = dict(
+            username=form['username'],
+            password=User.salted_password(form['password']),
+        )
+        print('validate_login', form, query)
+        return User.one(**query)

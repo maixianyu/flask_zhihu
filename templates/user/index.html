@@ -9,14 +9,14 @@
 
     <!-- user profile image -->
     <img class="card-img-top"
-        src="{{ url_for('root.uploads', filename=user.user_image) }}">
+        src="{{ url_for('root.uploads', filename=user.image) }}">
     <p>上传头像</p>
     <form method=post action={{ url_for(".add_img") }} enctype=multipart/form-data>
         <p><input type=file name=file>
         <input type=submit value=Upload>
     </form>
     <!-- user name -->
-    <div class="card-title">id: {{ user._id }}</div>
+    <div class="card-title">id: {{ user.id }}</div>
     <div class="card-title">{{ user.username }}</div>
     <a href= {{ url_for('zhihu.index') }}>知乎乎</a>
     <br>

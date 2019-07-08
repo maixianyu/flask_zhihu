@@ -31,7 +31,7 @@
                     <!-- 这部分是话题列表 -->
                     {% for q in questions %}
                         <div class="question-item">
-                        <a href={{ url_for('zhihu.question_detail', id=q._id) }}
+                        <a href={{ url_for('zhihu.question_detail', id=q.id) }}
                             class="question-title">
                             {{ q.title }}
                         </a>

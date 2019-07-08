@@ -1,70 +1,92 @@
-from models import MongoModel
 from models.user import User
-import time
+from models.base_model import SQLMixin, db
 from routes.route_user import current_user
+from sqlalchemy import String, Integer, Column, Text, UnicodeText, Unicode
+from utils import log
+import json
+# from flask import escape
+
+views = Column(Integer, nullable=False, default=0)
+title = Column(Unicode(50), nullable=False)
+content = Column(UnicodeText, nullable=False)
+user_id = Column(Integer, nullable=False)
+board_id = Column(Integer, nullable=False)
 
 
-class Question(MongoModel):
-    def __init__(self, form):
-        super().__init__(form)
-        author = current_user().username
-        self.author = author
-        self.title = form.get('title')
-        self.content = form.get('content')
-        self.time = int(time.time())
-        self.count_answer = 0
+class Question(SQLMixin, db.Model):
+    __tablename__ = 'Question'
+    author = Column(String(20), nullable=False)
+    title = Column(Unicode(50), nullable=False)
+    content = Column(UnicodeText, nullable=False)
+    count_answer = Column(Integer, nullable=False, default=0)
 
     def all_answer(self):
-        all = Answer.all(question_id=self._id)
+        all = Answer.all(question_id=self.id)
         return all
 
 
-class Answer(MongoModel):
-    def __init__(self, form):
-        super().__init__(form)
-        u = current_user()
-        self.author = form.get('author', u.username)
-        self.content = form.get('content')
-        self.question_id = form.get('question_id')
-        self.time = int(time.time())
-        # 赞
-        self.agree = form.get('agree', 0)
-        # 反对
-        self.disagree = form.get('disagree', 0)
+class Answer(SQLMixin, db.Model):
+    __tablename__ = 'Answer'
+
+    author = Column(String(20), nullable=False)
+    content = Column(UnicodeText, nullable=False)
+    question_id = Column(Integer, nullable=False)
+    # 赞
+    agree = Column(Integer, nullable=False, default=0)
+    # 反对
+    disagree = Column(Integer, nullable=False, default=0)
+
+    @classmethod
+    def new(cls, form):
+        form['content'] = json.dumps(form['content'])
+        form['author'] = current_user().username
+        # log('answer in new', form['content'], type(form['content']))
+        a = super().new(form)
+        return a
+
+    @classmethod
+    def api_new(cls, form):
+        a = cls.new(form).json()
+        a['image'] = User.one(username=a['author']).image
+        return a
+
+    @classmethod
+    def manual_new(cls, form):
+        form['content'] = str(form['content'])
+        return super().new(form)
 
     def question(self):
-        q = Question.find_one(_id=self.question_id)
+        q = Question.one(id=self.question_id)
         return q
 
     # 返回答主这个user对象
     def user(self):
-        u = User.find_one(username=self.author)
+        u = User.one(username=self.author)
         return u
 
-    # 返回 all，同时加上 user_image
     @classmethod
-    def all(cls, **kwargs):
-        all = super().all(**kwargs)
-        # 将用户的图片关联到answer中
-        for ans in all:
-            ans.user_image = ans.user().user_image
+    def api_all(cls, **kwargs):
+        all = cls.all(**kwargs)
+        all = [e.json() for e in all]
+
+        for e in all:
+            log('api author', e)
+            e['image'] = User.one(username=e['author']).image
+
         return all
 
 
-class AnswerComment(MongoModel):
-    def __init__(self, form):
-        super().__init__(form)
-        u = current_user()
-        self.author = form.get('author', u.username)
-        self.content = form.get('content')
-        self.answer_id = form.get('answer_id')
-        self.time = int(time.time())
+class AnswerComment(SQLMixin, db.Model):
+    __tablename__ = 'AnswerComment'
+    author = Column(String(20), nullable=False)
+    content = Column(UnicodeText, nullable=False)
+    answer_id = Column(Integer, nullable=False)
 
     def answer(self):
-        q = Answer.find_one(_id=self.answer_id)
+        q = Answer.one(id=self.answer_id)
         return q
 
     # 返回答主这个user对象
     def user(self):
-        u = User.find_one(username=self.author)
+        u = User.one(username=self.author)
         return u

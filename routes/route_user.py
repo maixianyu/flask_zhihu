@@ -37,7 +37,7 @@ def index():
     # 查看session是否存在
     if 'username' in session:
         username = escape(session['username'])
-        u = User.find_one(username=username)
+        u = User.one(username=username)
         if u is not None:
             # 用户存在
             return render_template("user/index.html", user=u)
@@ -63,7 +63,7 @@ def login():
     # request.form 不是 dict，所以需要转换一下
     form = request.form.to_dict()
     log('login form', form)
-    u, result = User.login(form)
+    u = User.validate_login(form)
     if u is not None:
         # 设置客户端session
         session['username'] = request.form['username']
@@ -71,6 +71,7 @@ def login():
         ref = form['referrer']
         return redirect(ref)
     else:
+        result = "用户名或密码不正确"
         return redirect(url_for('.login_view', message=result))
 
 
@@ -107,7 +108,7 @@ def same_username_validate(fun_next):
     @wraps(fun_next)
     def f():
         form = request.form
-        u = User.find_one(username=form['username'])
+        u = User.one(username=form['username'])
         if u is not None:
             message = '存在同名用户'
             return redirect(url_for('.register_view', message=message))
@@ -154,7 +155,7 @@ def add_img():
         # log('imgDir', imgDir)
         file.save(os.path.join(imgDir, filename))
         # 将头像的文件名绑定到用户的属性上
-        u.user_image = filename
+        u.image = filename
         log('u', u)
         u.save()
 
@@ -167,8 +168,10 @@ def current_user():
     '''
     # 查看session是否存在
     if 'username' in session:
-        username = escape(session['username'])
-        u = User.find_one(username=username)
+        # username = escape(session['username'])
+        username = session['username']
+        log('current user', username, type(username))
+        u = User.one(username=username)
         if u is not None:
             return u
     return User.guest()

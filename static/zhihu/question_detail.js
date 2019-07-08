@@ -19,7 +19,7 @@ var bindClickAgree = function () {
             // 获取回答id
             var answer_id = t.closest('.answer-item').id
             var data = {
-                _id: answer_id,
+                id: answer_id,
             }
 
             // json格式化
@@ -52,11 +52,11 @@ var apiClickSubmitAnswer = function(data, callback) {
 
 var answerTemplate = function(ans) {
     var template = `
-    <div class="answer-item border border-light" id="${ans._id}">
+    <div class="answer-item border border-light" id="${ans.id}">
         <!-- 个人介绍 -->
         <div class="row answer-item-row">
             <div class="col-md-auto">
-            <img class='user-image' src="/uploads/${ans.user_image}"/>
+            <img class='user-image' src="/uploads/${ans.image}"/>
             </div>
             <div class="col-md-auto">
                 <div class="">${ans.author}</div>
@@ -93,14 +93,19 @@ var answerTemplate = function(ans) {
 
 // 从 quill Delta 转化为 HTML
 function quillGetHTML(inputDelta) {
+    // log('HTML input', inputDelta)
     var tempQuill=new Quill(document.createElement("div"));
     tempQuill.setContents(inputDelta);
+    // log('HTML output', tempQuill.root.innerHTML)
     return tempQuill.root.innerHTML;
 }
 
 // 向服务器发送回答
 var bindClickSubmitAnswer = function(quill) {
     var button = sel('#button-submit-answer')
+    if (button == null)  {
+        return
+    }
     button.addEventListener('click', function (event) {
         // 获取回答id
         var question_id = sel('#question-id').value
@@ -116,9 +121,13 @@ var bindClickSubmitAnswer = function(quill) {
         log('hit submit', data)
         // 发送 AJAX 请求
         apiClickSubmitAnswer(data, function(resp) {
+
             resp = JSON.parse(resp)
+            // log('resp.content', resp.content)
+            resp.content = JSON.parse(resp.content)
             // 将 Delta 转化为 HTML
             resp.content = quillGetHTML(resp.content)
+
             // 生成 HTML
             html = answerTemplate(resp)
             // 定位 answer-list
@@ -139,6 +148,11 @@ var init_editor = function () {
         theme: 'snow'
     };
     log('init editor')
+    var div_editor = document.querySelector('#editor')
+    if (div_editor == null) {
+        log('editor null')
+        return
+    }
     var quill = new Quill('#editor', options);
     return quill
 }
@@ -154,11 +168,13 @@ var loadAllAnswer = function () {
         var ans_list = sel('.answer-list')
         // 解析 json
         all_answer = JSON.parse(resp)
-
+        // log('all_answer', all_answer)
         // 用一个循环渲染 answer
         for (var ans of all_answer) {
+            // log('ans before parse', ans)
             // 不懂为什么这里需要再parse一次
-            ans = JSON.parse(ans)
+            ans.content = JSON.parse(ans.content)
+            // log('ans', ans)
             // 将 Delta 转化为 HTML
             ans.content = quillGetHTML(ans.content)
 

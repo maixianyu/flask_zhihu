@@ -1,5 +1,5 @@
 from app import (
-    create_app,
+    configured_app,
     socketio,
 )
 # 运行代码
@@ -13,7 +13,7 @@ if __name__ == '__main__':
     # )
 
     # 启动
-    app = create_app()
+    app = configured_app()
     # app.run(**config)
     # socketio.run(app, host='127.0.0.1', port=2000, debug=True)
     socketio.run(app, debug=True)

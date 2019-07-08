@@ -37,25 +37,22 @@
         </div>
         <div class="container-fluid border border-light border-top-0 container-main">
             <div class="row justify-content-center">
-              <div class="col-6">
-                  <div class="answer-list">
-                      <!-- 这部分是回答列表展示，由 JS 来渲染 -->
+                <div class="col-6">
+                    <div class="answer-list">
+                    <!-- 这部分是回答列表展示，由 JS 来渲染 -->
 
-                  </div>
-                  <div>
-                      <!-- 这部分是提交回答 -->
-                      <div class="answer-submit border border-light">
-                          {% if user is not none %}
-                          <div id="editor" style="height: 150px"></div>
-                          <input type="text" id="question-id" value={{ question._id }} hidden=True>
-                          <button type="button" id='button-submit-answer'>提交</button>
-                          {% endif %}
-                      </div>
-                      <!-- Create the editor container -->
+                    </div>
+                    <!-- 这部分是提交回答 -->
+                    <div class="answer-submit border border-light">
+                        <input type="text" id="question-id" value={{ question.id }} hidden=True>
+                        {% if not user.is_guest() %}
+                        <div id="editor" style="height: 150px"></div>
+                        <button type="button" id='button-submit-answer'>提交</button>
+                        {% endif %}
+                    </div>
+                        <!-- Create the editor container -->
 
-
-                  </div>
-              </div>
+                </div>
               <div class="col-2">
                 回答的侧栏
               </div>
