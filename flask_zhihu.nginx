@@ -1,0 +1,15 @@
+server {
+    listen 80;
+
+    location /images {
+        alias /var/www/flask_zhihu/images;
+    }
+
+    location /static {
+        alias /var/www/flask_zhihu/static;
+    }
+
+    location / {
+        proxy_pass http://localhost:2000;
+    }
+}
