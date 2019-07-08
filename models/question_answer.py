@@ -79,7 +79,9 @@ class Answer(SQLMixin, db.Model):
 
         for e in all:
             log('api author', e)
-            e['image'] = User.one(username=e['author']).image
+            u = User.one(username=e['author'])
+            e['user_id'] = u.id
+            e['image'] = u.image
 
         return all
 

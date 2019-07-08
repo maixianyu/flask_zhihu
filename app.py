@@ -18,11 +18,13 @@ def register_routes(app):
     """
     注册路由
     """
+    from routes.route_message import main as route_message
     from routes.route_zhihu import main as route_zhihu
     from routes.route_user import main as route_user
     from routes.route_chat import main as route_chat
     from routes.route_root import main as route_root
 
+    app.register_blueprint(route_message, url_prefix='/mail')
     app.register_blueprint(route_zhihu, url_prefix='/zhihu')
     app.register_blueprint(route_user, url_prefix='/user')
     app.register_blueprint(route_chat, url_prefix='/chat')

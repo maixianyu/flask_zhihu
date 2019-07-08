@@ -1,0 +1,14 @@
+a {
+    text-decoration: none !important;
+}
+
+body {
+    background-color: #d0c9c936 !important;
+}
+
+.band {
+    background-color: white;
+    padding: 10px 0px 10px 0px;
+    margin-top: 0px !important;
+    /* text-align: right; */
+}

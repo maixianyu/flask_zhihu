@@ -3,8 +3,11 @@
     <head>
         <meta charset="utf-8">
         <title>{% block title %}{% endblock %}</title>
+
+        {% block head_link %}{% endblock %}
+        <link href="{{ url_for('static', filename='zhihu/base.css') }}" rel="stylesheet">
         <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
-        <link href="{{ url_for('static', filename='zhihu/index.css') }}" rel="stylesheet">
+
     </head>
     <body>
         <div class="container-fluid">

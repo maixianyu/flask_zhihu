@@ -34,19 +34,24 @@ def login_required(func):
 
 @main.route("/")
 def index():
-    # 查看session是否存在
-    if 'username' in session:
-        # username = escape(session['username'])
-        username = session['username']
-        u = User.one(username=username)
+    u_id = request.args.get('id', None)
+    cu = current_user()
+    if u_id is None:
+
+        if cu.is_guest():
+            # 游客
+            return redirect(url_for('.login_view'))
+        else:
+            # 用户存在
+            return render_template("user/index.html", user=cu, other_user=cu)
+    else:
+        u = User.one(id=u_id)
         if u is not None:
             # 用户存在
-            return render_template("user/index.html", user=u)
+            return render_template("user/index.html", user=cu, other_user=u)
         else:
             # 用户不存在
             return redirect(url_for('.login_view'))
-    else:
-        return redirect(url_for('.login_view'))
 
 
 @main.route("/login_view")

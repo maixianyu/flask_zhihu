@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <title>话题详情</title>
-        <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
-        <link href="{{ url_for('static', filename='quill.snow.css') }}" rel="stylesheet">
-        <link href="{{ url_for('static', filename='zhihu/question_detail.css') }}" rel="stylesheet">
-    </head>
-    <body class="body">
-        <div class="container-fluid border border-light band">
-            top band
-        </div>
+{% extends "zhihu/base.html" %}
+{% block title %}知乎主页{% endblock %}
+
+{% block head_link %}
+<link href="{{ url_for('static', filename='quill.snow.css') }}" rel="stylesheet">
+<link href="{{ url_for('static', filename='zhihu/question_detail.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+
         <div class="container-fluid border border-light border-top-0 question">
             <div class="row justify-content-center">
               <div class="col-6">
@@ -59,12 +56,9 @@
             </div>
         </div>
 
-
-
-    </body>
     <!-- Include the Quill library -->
     <script src="{{ url_for('static', filename='quill.js') }}"></script>
     <script src="{{ url_for('static', filename='utils.js') }}"></script>
     <script src="{{ url_for('static', filename='zhihu/question_detail.js') }}"></script>
 
-</html>
+{% endblock %}

@@ -33,7 +33,7 @@ var bindClickAgree = function () {
                 if (resp == '') {
                     return
                 }
-                
+
                 resp = JSON.parse(resp)
                 if (('id' in resp) && ('agree' in resp)) {
                     id = resp.id
@@ -63,7 +63,7 @@ var answerTemplate = function(ans) {
             <img class='user-image' src="/uploads/${ans.image}"/>
             </div>
             <div class="col-md-auto">
-                <div class="">${ans.author}</div>
+                <div class=""><a href="/user/?id=${ans.user_id}">${ans.author}</a></div>
                 <div class="font-weight-light person-intro">个人介绍</div>
             </div>
         </div>

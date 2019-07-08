@@ -1,0 +1,49 @@
+{% extends "zhihu/base.html" %}
+{% block title %}站内信{% endblock %}
+
+{% block head_link %}
+{% endblock %}
+
+{% block main %}
+
+<!DOCTYPE html>
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-6">
+        <p>发送邮件</p>
+        <div class="form-group">
+            <form method="post" action="{{ url_for('.add') }}">
+                收件人id：
+                <input type="text" class="form-control"
+                    name="receiver_id" placeholder="{{ receiver_id }}"
+                    value="{{ receiver_id }}">
+                <br>
+                标题：
+                <input type="text" class="form-control" name="title" placeholder="title">
+                <br>
+                内容：
+                <textarea type="text" class="form-control" name="content" placeholder="content">
+                </textarea>
+                <br>
+                <button type="submit">发送邮件</button>
+            </form>
+        </div>
+
+        <p>收到邮件</p>
+        {% for r in received %}
+            <div>
+                <a href="{{ url_for('.view', id = r.id) }}"> {{ r.title }}</a>
+            </div>
+        {% endfor %}
+        <br>
+        <p>发送邮件</p>
+        {% for s in send %}
+            <div>
+                <a href="{{ url_for('.view', id = s.id) }}"> {{ s.title }}</a>
+            </div>
+        {% endfor %}
+        {% endblock %}
+        </div>
+    </div>
+</div>

@@ -1,5 +1,10 @@
 {% extends "zhihu/base.html" %}
 {% block title %}知乎主页{% endblock %}
+
+{% block head_link %}
+<link href="{{ url_for('static', filename='zhihu/index.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block main %}
 
         <div class="container-fluid">

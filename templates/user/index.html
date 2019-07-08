@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
       <div class="col-6">
           <!-- user profile image -->
-          <img src="{{ url_for('root.uploads', filename=user.image) }}"
+          <img src="{{ url_for('root.uploads', filename=other_user.image) }}"
               width="200" height="200">
           <p>上传头像</p>
           <form method=post action={{ url_for(".add_img") }} enctype=multipart/form-data>
@@ -14,8 +14,9 @@
               <input type=submit value=Upload>
           </form>
           <!-- user name -->
-          <div class="card-title">id: {{ user.id }}</div>
-          <div class="card-title">{{ user.username }}</div>
+          <div class="card-title">id: {{ other_user.id }}</div>
+          <div class="card-title">{{ other_user.username }}</div>
+          <div><a href="/mail/?rec_id={{ other_user.id }}">给ta发私信</a></div>
           <br>
       </div>
     </div>
