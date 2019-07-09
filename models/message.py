@@ -30,5 +30,5 @@ class Messages(SQLMixin, db.Model):
             subject=form['title'],
             author=admin_mail,
             to=receiver.email,
-            plain=form['content']
+            content=form['content']
         )

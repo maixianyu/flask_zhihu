@@ -11,7 +11,7 @@ from routes.route_user import (
 )
 
 from models.message import Messages
-from roues.route_user import login_required
+from routes.route_user import login_required
 
 from utils import log
 

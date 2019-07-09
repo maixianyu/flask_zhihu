@@ -16,4 +16,4 @@ if __name__ == '__main__':
     app = configured_app()
     # app.run(**config)
     # socketio.run(app, host='127.0.0.1', port=2000, debug=True)
-    socketio.run(app, debug=True)
+    socketio.run(app, port=2000, debug=True)
