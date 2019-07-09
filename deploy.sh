@@ -7,6 +7,7 @@ set -ex
 mysql_pw='yourpassword'
 
 # 系统设置
+apt-get update
 apt-get install -y zsh curl ufw
 # sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 ufw allow 22
@@ -19,10 +20,10 @@ ufw status verbose
 ufw -f enable
 
 # 装依赖
-apt-get install python3-setuptools
+apt-get install python3-setuptools redis-server
 apt-get install -y git supervisor nginx python3-pip mysql-server
 pip3 install jinja2 flask gevent gunicorn pymysql flask_sqlalchemy flask_mail marrow.mailer
-pip3 install eventlet flask_socketio
+pip3 install eventlet flask_socketio redis celery
 # 删除测试用户和测试数据库
 # 删除测试用户和测试数据库并限制关闭公网访问
 mysql -u root -p$mysql_pw -e "DELETE FROM mysql.user WHERE User='';"
