@@ -33,6 +33,7 @@ def login_required(func):
 
 
 @main.route("/")
+@login_required
 def index():
     u_id = request.args.get('id', None)
     cu = current_user()
@@ -93,7 +94,7 @@ def logout():
 @main.route("/register_view")
 def register_view():
     msg = request.args.get('message', '')
-    return render_template("user/register.html", message=msg)
+    return render_template("user/login.html", message=msg)
 
 
 # 检查表单是否合法的装饰器

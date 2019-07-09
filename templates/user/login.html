@@ -10,15 +10,27 @@
           <div class="form">
             <form class="login-form" action={{ url_for("user.login") }} method="post">
               <input type="text" name="username" placeholder="username"/>
+              <input type="text" name="email" placeholder="your email"/>
               <input type="password" name="password" placeholder="password"/>
               <input id="referrer" type="hidden" name="referrer"/>
               <button type="submit">login</button>
               <p class="message">Not registered? <a href={{ url_for("user.register_view") }}>Create an account</a></p>
             </form>
             <br>
+            <form class="login-form" action={{ url_for("user.register") }} method="post">
+              <input type="text" name="username" placeholder="username"/>
+              <input type="password" name="password" placeholder="password"/>
+              <input id="referrer" type="hidden" name="referrer"/>
+              <button type="submit">register</button>
+              <p class="message">Not registered? <a href={{ url_for("user.register_view") }}>Create an account</a></p>
+            </form>
+            <br>
             {{ message }}
           </div>
         </div>
+          <br>
+          <br>
+
     </body>
     <script type="text/javascript">
         var ref = document.querySelector('#referrer')
