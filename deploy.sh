@@ -36,10 +36,13 @@ mysql -u root -p$mysql_pw -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysq
 # 删掉 nginx default 设置
 rm -f /etc/nginx/sites-enabled/default
 rm -f /etc/nginx/sites-available/default
-# 不要再 sites-available 里面放任何东西
+
+# nginx 不要在 sites-available 里面放任何东西
 cp /var/www/flask_zhihu/flask_zhihu.nginx /etc/nginx/sites-enabled/flask_zhihu
 chmod -R o+rwx /var/www/flask_zhihu
 
+# supervisor
+cp /var/www/flask_zhihu/celery_zhihu.conf /etc/supervisor/conf.d/celery_zhihu.conf
 cp /var/www/flask_zhihu/flask_zhihu.conf /etc/supervisor/conf.d/flask_zhihu.conf
 
 
