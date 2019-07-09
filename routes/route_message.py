@@ -11,6 +11,7 @@ from routes.route_user import (
 )
 
 from models.message import Messages
+from roues.route_user import login_required
 
 from utils import log
 
@@ -18,6 +19,7 @@ main = Blueprint('mail', __name__)
 
 
 @main.route("/add", methods=["POST"])
+@login_required
 def add():
     form = request.form.to_dict()
     log('mail form', form)
