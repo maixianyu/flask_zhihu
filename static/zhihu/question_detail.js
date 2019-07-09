@@ -198,6 +198,21 @@ var apiClickAnswerComment = function(data, callback) {
     ajax('GET', path, data, callback)
 }
 
+// 评论模版
+var commentTemplate = function(ans) {
+    res = `
+        <div class='answer-comment-item'>
+            <span>${ans.author}</span>
+            <span class='answer-comment-time'>${ans.created_time}</span>
+            <br>
+            <span>${ans.content}</span>
+
+
+        </div>
+    `
+    return res
+}
+
 // 绑定事件，显示问答评论
 var bindClickAnswerComment = function () {
     var ans_list = sel('.answer-list')
@@ -242,20 +257,11 @@ var bindClickAnswerComment = function () {
                 resp = JSON.parse(resp)
                 log('回答的评论', resp)
                 for (var ans of resp) {
-                    ans = JSON.parse(ans)
+                    // ans = JSON.parse(ans)
                     // 格式化时间
-                    var dt = new Date(ans.time * 1000)
-                    var dt_str = dt.toDateString()
-                    var template = `
-                        <div class='answer-comment-item'>
-                            <span>${ans.author}</span>
-                            <span class='answer-comment-time'>${dt_str}</span>
-                            <br>
-                            <span>${ans.content}</span>
-
-
-                        </div>
-                    `
+                    var dt = new Date(ans.created_time * 1000)
+                    ans.created_time = dt.toDateString()
+                    var template = commentTemplate(ans)
                     comment_list.insertAdjacentHTML('beforeend', template)
                 }
                 // 插入评论输入框与按钮
@@ -309,15 +315,10 @@ var bindClickSubmitAnswerComment = function () {
                 log('显示新增的评论', ans)
                 var comment_list = answer_item.querySelector('.answer-comment-list')
                 // 格式化时间
-                var dt = new Date(ans.time * 1000)
-                var dt_str = dt.toTimeString()
-                var template = `
-                    <div class='answer-comment-item'>
-                        ${ans.author}
-                        ${ans.content}
-                        ${dt_str}
-                    </div>
-                `
+                var dt = new Date(ans.created_time * 1000)
+                ans.created_time = dt.toDateString()
+                var template = commentTemplate(ans)
+
                 comment_list.insertAdjacentHTML('beforeend', template)
                 // 清空输入
                 comment_input.value = ''

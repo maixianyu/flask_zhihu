@@ -121,7 +121,7 @@ def answer_comment_submit():
     log('comment answer dict', form)
     ans = AnswerComment.new(form)
     # 返回 json 格式的 answer
-    return ans.json()
+    return json.dumps(ans.json())
 
 
 # 加载评论的所有回答

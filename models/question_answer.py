@@ -92,6 +92,13 @@ class AnswerComment(SQLMixin, db.Model):
     content = Column(UnicodeText, nullable=False)
     answer_id = Column(Integer, nullable=False)
 
+    @classmethod
+    def new(cls, form):
+        u = current_user()
+        form['author'] = u.username
+        a = super().new(form)
+        return a
+
     def answer(self):
         q = Answer.one(id=self.answer_id)
         return q
