@@ -18,7 +18,7 @@
                     <a class="common-user-info-text" href={{ url_for("root.index") }}>首页</a>
                 </div>
                 <div class="col-2 current-user-info">
-                    {% if user is not none %}
+                    {% if not user.is_guest() %}
                         你好，<a href={{ url_for("user.index") }}>{{ user.username }}</a>
                         <a href= {{ url_for('user.logout') }} style="margin-left:20px;">退出登录</a>
                     {% else %}

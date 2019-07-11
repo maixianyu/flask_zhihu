@@ -127,7 +127,6 @@ def answer_comment_submit():
 # 加载评论的所有回答
 @main.route("/api/all_answer_comment/<string:answer_id>",
             endpoint='all_answer_comment', methods=['GET'])
-@login_required
 def all_answer_comment(answer_id):
     all = AnswerComment.all(answer_id=answer_id)
     # 格式化为 json 返回
