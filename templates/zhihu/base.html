@@ -22,6 +22,7 @@
                         你好，<a href={{ url_for("user.index") }}>{{ user.username }}</a>
                         <a href= {{ url_for('user.logout') }} style="margin-left:20px;">退出登录</a>
                     {% else %}
+                        <div class="guest"></div>
                         <a href={{ url_for("user.login_view") }}>登录</a>
                         <a href={{ url_for("user.register_view") }}>注册</a>
                     {% endif %}

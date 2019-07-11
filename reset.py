@@ -82,10 +82,16 @@ def generate_fake_date(app):
             print('begin question <{}>'.format(i))
             Question.new(question_form)
 
+            # 每个问题两个回答
             print('begin answer <{}>'.format(i))
             answer_form['question_id'] = i+1
             Answer.manual_new(answer_form)
 
+            print('begin answer <{}>'.format(i))
+            answer_form['question_id'] = i+1
+            Answer.manual_new(answer_form)
+
+        for i in range(20):
             print('begin AnswerComment <{}>'.format(i))
             comment_form['author'] = u_2.username
             comment_form['answer_id'] = i+1

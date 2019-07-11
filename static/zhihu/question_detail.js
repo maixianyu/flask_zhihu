@@ -189,6 +189,7 @@ var loadAllAnswer = function () {
             // 插入 before end
             ans_list.insertAdjacentHTML('beforeend', html)
         }
+        disableElementInGuestMode()
     })
 }
 
@@ -275,6 +276,7 @@ var bindClickAnswerComment = function () {
                     </div>
                 `
                 comment_list.insertAdjacentHTML('afterend', template)
+                disableElementInGuestMode()
             })
         }
     })
@@ -327,6 +329,36 @@ var bindClickSubmitAnswerComment = function () {
     })
 }
 
+var disableElementInGuestMode = function () {
+    var guest = document.querySelector('.guest')
+    if (guest == null) {
+        log('normal user mode')
+        return
+    }
+    // 禁止写回答按钮
+    var button_answer = document.querySelector('.write-answer')
+    button_answer.setAttribute("disabled", "")
+
+    // 禁止点赞按钮
+    var button_agree = document.querySelectorAll('.answer-agree')
+    // log('button-agree', button_agree)
+    if (button_agree.length != 0) {
+        for (var b of button_agree) {
+            // log('b', b)
+            b.setAttribute("disabled", "")
+        }
+    }
+
+    // 禁止发布评论按钮
+    var comment_submit_bt = document.querySelectorAll('#button-submit-answer-comment')
+    if (comment_submit_bt.length != 0) {
+        for (var b of comment_submit_bt) {
+            // log('b', b)
+            b.setAttribute("disabled", "")
+        }
+    }
+
+}
 
 var _main = function () {
     // 加载所有回答
@@ -341,6 +373,8 @@ var _main = function () {
     bindClickAnswerComment()
     // 针对回答发表评论
     bindClickSubmitAnswerComment()
+    // 游客模式下禁止相关控件
+    disableElementInGuestMode()
 }
 
 _main()
