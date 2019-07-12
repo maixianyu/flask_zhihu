@@ -99,6 +99,11 @@ class AnswerComment(SQLMixin, db.Model):
         a = super().new(form)
         return a
 
+    @classmethod
+    def manual_new(cls, form):
+        a = super().new(form)
+        return a
+
     def answer(self):
         q = Answer.one(id=self.answer_id)
         return q

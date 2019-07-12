@@ -95,13 +95,13 @@ def generate_fake_date(app):
             print('begin AnswerComment <{}>'.format(i))
             comment_form['author'] = u_2.username
             comment_form['answer_id'] = i+1
-            AnswerComment.new(comment_form)
+            AnswerComment.manual_new(comment_form)
 
             print('begin AnswerComment <{}>'.format(i))
             comment_form['author'] = u_3.username
             comment_form['answer_id'] = i+1
             comment_form['content'] = "同意楼上。"
-            AnswerComment.new(comment_form)
+            AnswerComment.manual_new(comment_form)
 
     title = '一个请教'
     content = '我的看法是xx。'
