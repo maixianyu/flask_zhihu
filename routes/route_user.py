@@ -4,15 +4,25 @@ from flask import (
     url_for,
     Blueprint,
     request,
-    session,
-    escape,
+    # session,
+    # escape,
+    make_response,
+
 )
+import uuid
+import json
 from functools import wraps
 from models.user import User
 from utils import log
 from werkzeug.utils import secure_filename
 from config import imgDir
 import os
+
+from . import (
+    current_user,
+    cache_session,
+)
+from . import cache_session
 
 main = Blueprint('user', __name__)
 
@@ -72,11 +82,15 @@ def login():
     log('login form', form)
     u = User.validate_login(form)
     if u is not None:
-        # 设置客户端session
-        session['username'] = request.form['username']
-        # 跳转至登录前的页面
         ref = form['referrer']
-        return redirect(ref)
+        resp = make_response(redirect(ref))
+        # 设置 cookie
+        s = str(uuid.uuid4())
+        resp.set_cookie('session', s)
+        # 写入 StrictRedis
+        cache_session.set(s, json.dumps(u.id))
+        return resp
+
     else:
         result = "用户名或密码不正确"
         return redirect(url_for('.login_view', message=result))
@@ -85,9 +99,10 @@ def login():
 @main.route("/logout", methods=["GET"])
 def logout():
     # remove the username from the session if it's there
-    log('session before pop', session)
-    session.pop('username', None)
-    log('session after pop', session)
+    if 'session' in request.cookies:
+        session = request.cookies.get('session')
+        cache_session.delete(session)
+
     return redirect(url_for('root.index'))
 
 
@@ -167,18 +182,3 @@ def add_img():
         u.save()
 
     return redirect(url_for(".index"))
-
-
-def current_user():
-    '''
-    获取当前用户，如果没有登录，则返回 None
-    '''
-    # 查看session是否存在
-    if 'username' in session:
-        # username = escape(session['username'])
-        username = session['username']
-        log('current user', username, type(username))
-        u = User.one(username=username)
-        if u is not None:
-            return u
-    return User.guest()
