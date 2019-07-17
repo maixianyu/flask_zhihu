@@ -1,4 +1,4 @@
-from . import event_chat
+# from . import event_chat
 # from utils import log
 from models.user import User
 import redis
