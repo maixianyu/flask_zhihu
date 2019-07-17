@@ -20,10 +20,12 @@ ufw status verbose
 ufw -f enable
 
 # 装依赖
-apt-get install python3-setuptools redis-server
+apt-get install -y python3-setuptools redis-server
 apt-get install -y git supervisor nginx python3-pip mysql-server
+
 pip3 install jinja2 flask gevent gunicorn pymysql flask_sqlalchemy flask_mail marrow.mailer
 pip3 install eventlet flask_socketio redis celery
+pip3 install gevent
 # 删除测试用户和测试数据库
 # 删除测试用户和测试数据库并限制关闭公网访问
 mysql -u root -p$mysql_pw -e "DELETE FROM mysql.user WHERE User='';"
