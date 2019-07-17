@@ -55,7 +55,7 @@ def configured_app():
 
     register_routes(app)
     db_init(app)
-    from . import event_chat
+    from routes import event_chat
     socketio.init_app(app)
     register_jinja_func(app)
 
