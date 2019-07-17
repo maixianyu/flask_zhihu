@@ -6,7 +6,7 @@ from flask import (
     Blueprint,
 )
 
-from routes.route_user import (
+from routes import (
     current_user,
 )
 

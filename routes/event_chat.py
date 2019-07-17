@@ -1,6 +1,6 @@
 from flask_socketio import emit
 from app import socketio
-from routes.route_user import current_user
+from routes import current_user
 from utils import log
 
 log('event_chat is imported')

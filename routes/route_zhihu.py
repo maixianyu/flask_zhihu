@@ -8,10 +8,16 @@ from flask import (
 
 import json
 from utils import log
-from routes.route_user import (
-    login_required,
+
+from routes import (
     current_user,
 )
+
+from routes.route_user import (
+    login_required,
+    # current_user,
+)
+
 from models.question_answer import (
     Question,
     Answer,

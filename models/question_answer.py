@@ -1,6 +1,6 @@
 from models.user import User
 from models.base_model import SQLMixin, db
-from routes.route_user import current_user
+from routes import current_user
 from sqlalchemy import String, Integer, Column, Text, UnicodeText, Unicode
 from utils import log
 import json
