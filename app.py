@@ -55,8 +55,8 @@ def configured_app():
 
     register_routes(app)
     db_init(app)
-    from routes import event_chat
-    socketio.init_app(app)
+    # from routes import event_chat
+    # socketio.init_app(app)
     register_jinja_func(app)
 
     app.secret_key = secret.secret_key
